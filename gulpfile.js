@@ -45,7 +45,7 @@ gulp.task('cssmin',['sass'],function () {
 //监视任务的变化
 gulp.task('watch',function() {
     //gulp.watch('src/js/*.js',['jsmin']);
-    //gulp.watch('src/html/*.html',['html']);
+    gulp.watch('src/html/*.html',['html']);
     gulp.watch('src/js/*.js',['es2015']);
     gulp.watch('src/images/*',['imagemin']);
     gulp.watch(['content/sass/*.scss','src/js/*.js','src/html/*.html'],['sass']);
@@ -64,7 +64,8 @@ gulp.task('connect',function () {
 //html 使用
 gulp.task('html',function () {
     gulp.src('src/html/*.html')
-        .pipe(gulp.dest('dist/html'));
+        .pipe(gulp.dest('dist/html'))
+        .pipe(connect.reload());;
 });
 
 //压缩图片
