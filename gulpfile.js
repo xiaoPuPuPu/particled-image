@@ -7,13 +7,17 @@ var sass = require('gulp-sass'),
     connect = require('gulp-connect'),
     concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
-    babel = require('gulp-babel');
+    babel = require('gulp-babel'),
+	autoprefixer = require('gulp-autoprefixer'),//css兼容性前缀
+    cache = require('gulp-cache'),  //保持缓存，只压缩改变的图片
+    stripDebug = require('gulp-strip-debug'); //去处console.log()
 
 
 //编译sass为 css
 gulp.task('sass',function(){
     return gulp.src('src/sass/*.scss')
         .pipe(sass())
+        .pipe(autoprefixer())
         .pipe(gulp.dest('src/css/'));
 });
 
@@ -21,6 +25,7 @@ gulp.task('sass',function(){
 gulp.task('jsmin',['es2015'], function () {
     return gulp.src('src/js/*.js')
         .pipe(concat('main.js'))
+		.pipe(stripDebug())
         .pipe(uglify({
             mangle: true,//类型：Boolean 默认：true 是否修改变量名
             compress: true,//类型：Boolean 默认：true 是否完全压缩
@@ -63,26 +68,26 @@ gulp.task('connect',function () {
 
 //html 使用
 gulp.task('html',function () {
-    gulp.src('src/html/*.html')
-        .pipe(gulp.dest('dist/html'))
+    gulp.src('src/*.html')
+        .pipe(gulp.dest('dist/'))
         .pipe(connect.reload());;
 });
 
 //压缩图片
 gulp.task('imagemin',function () {
     return gulp.src('src/images/*')
-        .pipe(imagemin({
+        .pipe(cache(imagemin({
             optimizationLevel: 5, //类型：Number  默认：3  取值范围：0-7（优化等级）
             progressive: true, //类型：Boolean 默认：false 无损压缩jpg图片
             interlaced: true, //类型：Boolean 默认：false 隔行扫描gif进行渲染
             multipass: true //类型：Boolean 默认：false 多次优化svg直到完全优化
-        }))
+        })))
         .pipe(gulp.dest('dest/images'))
 });
 
 //es6
 gulp.task('es2015',function () {
-    return gulp.src('src/js/*.js')
+    return gulp.src('src/js/es6_style/*.js')
         .pipe(babel({
             presets: ['babel-preset-es2015']
         }))
@@ -90,8 +95,8 @@ gulp.task('es2015',function () {
 });
 
 //开发任务
-gulp.task('do',['sass','imagemin','es2015','connect','watch']);
+gulp.task('default',['sass','imagemin','es2015','connect','watch']);
 
 
-//默认的任务
-gulp.task('default',['html','sass','jsmin','imagemin','cssmin','connect','watch']); //[a1,a2] 顺序有关
+//生产任务
+gulp.task('do',['html','sass','jsmin','imagemin','cssmin','connect','watch']); //[a1,a2] 顺序有关
