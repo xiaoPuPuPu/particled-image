@@ -10,6 +10,8 @@ var sass = require('gulp-sass'),
     babel = require('gulp-babel'),
 	autoprefixer = require('gulp-autoprefixer'),//css兼容性前缀
     cache = require('gulp-cache'),  //保持缓存，只压缩改变的图片
+    rev = require('gulp-rev'),  //版本生成
+	revCollector = require('gulp-rev-collector'),  //版本放入 .html中
     stripDebug = require('gulp-strip-debug'); //去处console.log()
 
 
@@ -18,7 +20,17 @@ gulp.task('sass',function(){
     return gulp.src('src/sass/*.scss')
         .pipe(sass())
         .pipe(autoprefixer())
-        .pipe(gulp.dest('src/css/'));
+        .pipe(rev())
+        .pipe(gulp.dest('src/css/'))
+        .pipe(rev.manifest())//生成一个rev-mainfest.json
+		.pipe(gulp.dest('rev/'));
+
+});
+//
+gulp.task('rev',function() {
+	gulp.src(['rev/*.json','src/index.html'])
+		.pipe(revCollector())
+		.pipe(gulp.dest('index-html'))
 });
 
 //压缩js为min.js
@@ -95,7 +107,7 @@ gulp.task('es2015',function () {
 });
 
 //开发任务
-gulp.task('default',['sass','imagemin','es2015','connect','watch']);
+gulp.task('default',['sass','imagemin','es2015','connect','rev','watch']);
 
 
 //生产任务
