@@ -8,6 +8,7 @@ var sass = require('gulp-sass'),
     concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     babel = require('gulp-babel'),
+	clean = require('gulp-clean'),//清理文件
 	autoprefixer = require('gulp-autoprefixer'),//css兼容性前缀
     cache = require('gulp-cache'),  //保持缓存，只压缩改变的图片
     rev = require('gulp-rev'),  //版本生成
@@ -21,6 +22,7 @@ gulp.task('sass',function(){
         .pipe(sass())
         .pipe(autoprefixer())
         .pipe(rev())
+		.pipe(clean())
         .pipe(gulp.dest('src/css/'))
         .pipe(rev.manifest())//生成一个rev-mainfest.json
 		.pipe(gulp.dest('rev/'));
