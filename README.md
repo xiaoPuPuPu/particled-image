@@ -1,4 +1,4 @@
-"# particled-image"
+##              "# particled-image"
 
 ##项目说明
 一直对图像的粒子效果很喜欢，但没有好好的一探究竟，知道前一段时间看到[ISUX中打造高大上粒子动画](https://isux.tencent.com/canvas-particle-animation.html),仔细看了原理，当然动手干是关键。

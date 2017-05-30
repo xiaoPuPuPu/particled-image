@@ -12,13 +12,13 @@
         var imageInfo = {};
         canvas.ctx.font = '100px microsoft yahei ';
         imageInfo = canvas.ctx.measureText(drawFont);
-        canvas.ctx.textBaseline = 'top';
-        canvas.ctx.fillStyle = 'red';
-        canvas.ctx.fillText(drawFont, 50, 50);
+        canvas.ctx.textBaseline = 'hanging';
+        canvas.ctx.fillStyle = '#DC143C'; //220,20,60
+        canvas.ctx.fillText(drawFont, 0, 0);
         return {
-            imageData: canvas.ctx.getImageData(50, 50, imageInfo.width, 150),
+            imageData: canvas.ctx.getImageData(0, 0, imageInfo.width, 100),
             w: imageInfo.width,
-            h: 150
+            h: 100
         };
     };
 
@@ -31,7 +31,8 @@
         // img.src = '../../images/isux.png'; //相当于 html中文件的位置
         // img.onload = function () {
         // image.obj = img;
-        var img = canvas.image('中国加油');
+
+        var img = canvas.image('sadf');
         image.w = img.w;
         image.h = img.h;
 
@@ -40,6 +41,7 @@
         //canvas.ctx.drawImage(image.obj, image.x, image.y, image.w, image.h);
         // image.imageData = canvas.ctx.getImageData(image.x, image.y, image.w, image.h);
         image.imageData = img.imageData;
+
         calculate();
         draw();
         //};
@@ -66,10 +68,10 @@
             for (var j = 0; j < rows; j++) {
 
                 //计算(j,i)在数组中的R色值 坐标值
-                pos = (j * s_height * image.w + i * s_width) * 4;
+                pos = parseInt((j * s_height * image.w + i * s_width) * 4); //计算结果转化为整数
 
                 //判断(j，i)中的 R色值
-                if (data[pos + 3] > 100) {
+                if (data[pos] > 100) {
                     var particle = {
                         // x: image.x + i * s_width + (Math.random() - 0.5) * 20,
                         x: image.x + i * s_width,
@@ -77,11 +79,12 @@
                         y: image.y + j * s_height,
                         flotage: false
                     };
-                    if (data[pos + 1] < 175 && data[pos + 2] < 10) {
-                        particle.fillStyle = '#ffa900';
+
+                     if (data[pos + 1] < 175 && data[pos + 2] < 10) {
+                        particle.fillStyle = 'red';//'#ffa900';
                     } else if (data[pos + 1] < 75 && data[pos + 2] > 50) {
                         particle.fillStyle = '#ff4085';
-                    } else if (data[pos + 1] < 220 && data[pos + 2] > 190) {
+                    } else if (data[pos + 1] < 255 && data[pos + 2] > 190) {
                         particle.fillStyle = '#00cfff';
                     } else if (data[pos + 1] < 195 && data[pos + 2] > 175) {
                         particle.fillStyle = '#9abc1c';
@@ -128,11 +131,11 @@
 
             curr_particle = particles[i];
             if (i == 0) {
-                console.log(curr_particle.startTime < time);
+               // console.log(curr_particle.startTime < time);
             }
             if (curr_particle.flotage && curr_particle.startTime < time) {
                 if (i == 0) {
-                    console.log(curr_particle.x);
+                    // console.log(curr_particle.x);
                 }
 
                 curr_particle.x -= curr_particle.speedX;
@@ -153,8 +156,6 @@
 
             canvas.ctx.fillRect(curr_particle.x, curr_particle.y, 1, 1);
         }
-
         requestAnimationFrame(draw);
-        //	draw();
     }
 })();
