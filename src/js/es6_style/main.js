@@ -32,7 +32,7 @@
         // img.onload = function () {
         // image.obj = img;
 
-        var img = canvas.image('sadf');
+        var img = canvas.image('中国');
         image.w = img.w;
         image.h = img.h;
 
@@ -68,7 +68,7 @@
             for (var j = 0; j < rows; j++) {
 
                 //计算(j,i)在数组中的R色值 坐标值
-                pos = parseInt((j * s_height * image.w + i * s_width) * 4); //计算结果转化为整数
+                pos = Math.floor((j * s_height * image.w + i * s_width) * 4); //计算结果转化为整数
 
                 //判断(j，i)中的 R色值
                 if (data[pos] > 100) {
@@ -80,15 +80,15 @@
                         flotage: false
                     };
 
-                     if (data[pos + 1] < 175 && data[pos + 2] < 10) {
+                    //  if (data[pos + 1] < 175 && data[pos + 2] < 10) {
                         particle.fillStyle = 'red';//'#ffa900';
-                    } else if (data[pos + 1] < 75 && data[pos + 2] > 50) {
-                        particle.fillStyle = '#ff4085';
-                    } else if (data[pos + 1] < 255 && data[pos + 2] > 190) {
-                        particle.fillStyle = '#00cfff';
-                    } else if (data[pos + 1] < 195 && data[pos + 2] > 175) {
-                        particle.fillStyle = '#9abc1c';
-                    }
+                    // } else if (data[pos + 1] < 75 && data[pos + 2] > 50) {
+                    //     particle.fillStyle = '#ff4085';
+                    // } else if (data[pos + 1] < 255 && data[pos + 2] > 190) {
+                    //     particle.fillStyle = '#00cfff';
+                    // } else if (data[pos + 1] < 195 && data[pos + 2] > 175) {
+                    //     particle.fillStyle = '#9abc1c';
+                    // }
                     //if (i % 5 === 0 && j % 5 === 0) {
                     particle.flotage = true;
 
@@ -123,29 +123,32 @@
     function draw() {
 
         canvas.ctx.clearRect(0, 0, canvas.w, canvas.h);
-
+        var easeOutQuad = function(e, a, g, f) {
+			e /= f;
+			return -g * e * (e - 2) + a
+		};
         var len = particles.length;
         var curr_particle = null;
         var time = new Date().getTime();
         for (var i = 0; i < len; i++) {
 
             curr_particle = particles[i];
-            if (i == 0) {
-               // console.log(curr_particle.startTime < time);
-            }
-            if (curr_particle.flotage && curr_particle.startTime < time) {
-                if (i == 0) {
-                    // console.log(curr_particle.x);
-                }
 
+
+            if (curr_particle.flotage && curr_particle.startTime < time) {
                 curr_particle.x -= curr_particle.speedX;
                 curr_particle.y -= curr_particle.speedY;
+				curr_particle.x = easeOutQuad(time - curr_particle.startTime,curr_particle.endX,curr_particle.startX - curr_particle.endX,curr_particle.killTime - curr_particle.startTime);
+				curr_particle.y = easeOutQuad(time - curr_particle.startTime,curr_particle.endY,curr_particle.startY- curr_particle.endY ,curr_particle.killTime - curr_particle.startTime);
+
+
             }
 
             if (curr_particle.killTime < time) {
 
+
                 curr_particle.x = curr_particle.startX;
-                curr_particle.y = curr_particle.startY;
+                 curr_particle.y = curr_particle.startY;
                 // curr_particle.x = curr_particle.endX;
                 // curr_particle.y = curr_particle.endY;
 
@@ -153,7 +156,6 @@
                 // curr_particle.killTime = time + parseInt(Math.random() * 35) * 1000;
             }
             canvas.ctx.fillStyle = curr_particle.fillStyle;
-
             canvas.ctx.fillRect(curr_particle.x, curr_particle.y, 1, 1);
         }
         requestAnimationFrame(draw);
