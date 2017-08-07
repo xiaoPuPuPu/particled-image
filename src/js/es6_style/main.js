@@ -32,7 +32,7 @@
         // img.onload = function () {
         // image.obj = img;
         var str = ',我也要加油哦';
-        var img = canvas.image(`中国梦,四川梦,上海梦${str}`);
+        var img = canvas.image(`中国梦,四川梦,上海梦，河南梦${str}`);
         image.w = img.w;
         image.h = img.h;
 
