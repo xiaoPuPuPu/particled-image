@@ -23,7 +23,7 @@
     };
 
     if (canvas.obj.getContext) {
-        canvas.ctx = canvas.obj.getContext('2d');
+        canvas.ctx = canvas.obj.getContext('2d'); // woshi
         canvas.w = canvas.obj.width = document.body.clientWidth;
         canvas.h = canvas.obj.height = document.body.clientHeight;
 
@@ -32,7 +32,7 @@
         // img.onload = function () {
         // image.obj = img;
         var str = ',我也要加油哦';
-        var img = canvas.image(`中国梦,四川梦,上海梦，江苏梦${str}`);
+        var img = canvas.image(`中国梦,四川梦,上海梦${str}`);
         image.w = img.w;
         image.h = img.h;
 
