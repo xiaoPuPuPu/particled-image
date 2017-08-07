@@ -36,7 +36,7 @@
         image.w = img.w;
         image.h = img.h;
 
-        image.x = parseInt(canvas.w / 2 - image.w / 2);
+        image.x = parseInt(canvas.w / 2 - image.w / 2); // 专心听歌
         image.y = parseInt(canvas.h / 2 - image.h / 2);
         //canvas.ctx.drawImage(image.obj, image.x, image.y, image.w, image.h);
         // image.imageData = canvas.ctx.getImageData(image.x, image.y, image.w, image.h);
