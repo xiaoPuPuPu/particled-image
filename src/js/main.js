@@ -32,7 +32,7 @@
         // img.onload = function () {
         // image.obj = img;
         var str = ',我也要加油哦';
-        var img = canvas.image('\u4E2D\u56FD\u68A6' + str);
+        var img = canvas.image('\u4E2D\u56FD\u68A6,\u56DB\u5DDD\u68A6,\u4E0A\u6D77\u68A6\uFF0C\u6C5F\u82CF\u68A6' + str);
         image.w = img.w;
         image.h = img.h;
 
