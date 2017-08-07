@@ -31,8 +31,8 @@
         // img.src = '../../images/isux.png'; //相当于 html中文件的位置
         // img.onload = function () {
         // image.obj = img;
-
-        var img = canvas.image('中国');
+        var str = ',我也要加油哦';
+        var img = canvas.image(`中国梦${str}`);
         image.w = img.w;
         image.h = img.h;
 
@@ -81,7 +81,7 @@
                     };
 
                     //  if (data[pos + 1] < 175 && data[pos + 2] < 10) {
-                        particle.fillStyle = 'red';//'#ffa900';
+                        particle.fillStyle = '#fff';//'#ffa900';
                     // } else if (data[pos + 1] < 75 && data[pos + 2] > 50) {
                     //     particle.fillStyle = '#ff4085';
                     // } else if (data[pos + 1] < 255 && data[pos + 2] > 190) {
